@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>麻醉术前自查清单</title>
+  <style>
+    :root {
+      --red: #e53e3e;
+      --red-bg: #fff5f5;
+      --red-border: #fc8181;
+      --yellow: #d69e2e;
+      --yellow-bg: #fffff0;
+      --yellow-border: #f6e05e;
+      --green: #38a169;
+      --green-bg: #f0fff4;
+      --green-border: #68d391;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #f6f9fc 0%, #eef2f7 100%);
+      min-height: 100vh;
+      padding: 20px 16px 40px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    header .badge {
+      display: inline-block;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    header h1 {
+      font-size: clamp(22px, 5vw, 34px);
+      font-weight: 800;
+      color: #1a202c;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+      color: #718096;
+    }
+
+    .progress-bar-wrap {
+      max-width: 560px;
+      margin: 0 auto 32px;
+      background: #e2e8f0;
+      border-radius: 99px;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #38a169, #68d391);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-label {
+      text-align: center;
+      font-size: 13px;
+      color: #718096;
+      margin-top: 6px;
+      margin-bottom: 32px;
+    }
+
+    .section {
+      max-width: 560px;
+      margin: 0 auto 24px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .section-header .icon { font-size: 22px; }
+
+    .section-header .subtitle {
+      font-size: 12px;
+      font-weight: 400;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+
+    .section.red   .section-header { background: var(--red); }
+    .section.yellow .section-header { background: var(--yellow); }
+    .section.green  .section-header { background: var(--green); }
+
+    .section-body {
+      padding: 8px 0;
+    }
+
+    .section.red   .section-body { background: var(--red-bg); }
+    .section.yellow .section-body { background: var(--yellow-bg); }
+    .section.green  .section-body { background: var(--green-bg); }
+
+    .item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 13px 20px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    .item:last-child { border-bottom: none; }
+
+    .item:hover { filter: brightness(0.97); }
+
+    .item input[type="checkbox"] {
+      display: none;
+    }
+
+    .custom-check {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      border-radius: 6px;
+      border: 2px solid #cbd5e0;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 1px;
+    }
+
+    .custom-check svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.2s;
+    }
+
+    .section.red    .item.checked .custom-check { border-color: var(--red);    background: var(--red); }
+    .section.yellow .item.checked .custom-check { border-color: var(--yellow); background: var(--yellow); }
+    .section.green  .item.checked .custom-check { border-color: var(--green);  background: var(--green); }
+
+    .item.checked .custom-check svg { opacity: 1; transform: scale(1); }
+
+    .item-text {
+      flex: 1;
+    }
+
+    .item-text strong {
+      display: block;
+      font-size: 15px;
+      color: #2d3748;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .item-text span {
+      display: block;
+      font-size: 12px;
+      color: #a0aec0;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .item.checked .item-text strong {
+      text-decoration: line-through;
+      color: #a0aec0;
+    }
+
+    .done-banner {
+      max-width: 560px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, #38a169, #2f855a);
+      color: #fff;
+      border-radius: 16px;
+      padding: 20px 24px;
+      text-align: center;
+      display: none;
+      box-shadow: 0 8px 24px rgba(56,161,105,0.35);
+    }
+
+    .done-banner.show { display: block; }
+
+    .done-banner .big { font-size: 36px; margin-bottom: 6px; }
+    .done-banner h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .done-banner p { font-size: 14px; opacity: 0.9; }
+
+    .reset-btn {
+      display: block;
+      max-width: 560px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 14px;
+      background: #edf2f7;
+      color: #4a5568;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .reset-btn:hover { background: #e2e8f0; }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 12px;
+      color: #a0aec0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">麻醉科 · 患者教育</div>
+  <h1>麻醉术前自查清单</h1>
+  <p>手术前一晚，30秒打钩，安心进手术室 ✅</p>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar-fill" id="progressFill"></div>
+</div>
+<div class="progress-label" id="progressLabel">已完成 0 / 14 项</div>
+
+<!-- 红线区 -->
+<div class="section red">
+  <div class="section-header">
+    <span class="icon">🔴</span>
+    <div>
+      <div>红线区 — 必须做到</div>
+      <div class="subtitle">未达到请立即联系医护人员</div>
+    </div>
+  </div>
+  <div class="section-body" id="red-body">
+
+    <label class="item" data-id="r1">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>固体食物禁食 ≥ 8 小时</strong>
+        <span>含牛奶、豆浆；手术当日零食不可碰</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="r2">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>清水禁饮 ≥ 2 小时</strong>
+        <span>白开水、清茶；术前 2 小时起不得饮水</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="r3">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>已取下假牙 / 活动牙套</strong>
+        <span>防止麻醉插管时脱落误吸</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="r4">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>已取下首饰、隐形眼镜、指甲油</strong>
+        <span>金属 / 化妆品会干扰监测仪器信号</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="r5">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>已签署麻醉知情同意书</strong>
+        <span>未签署请在入室前告知护士</span>
+      </div>
+    </label>
+
+  </div>
+</div>
+
+<!-- 重点区 -->
+<div class="section yellow">
+  <div class="section-header">
+    <span class="icon">🟡</span>
+    <div>
+      <div>重点区 — 需要主动告知医生</div>
+      <div class="subtitle">凡打钩项，请在术前谈话时说明</div>
+    </div>
+  </div>
+  <div class="section-body" id="yellow-body">
+
+    <label class="item" data-id="y1">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>患有高血压 / 心脏病</strong>
+        <span>并请说明目前用药情况</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="y2">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>患有糖尿病</strong>
+        <span>今早是否用药 / 注射胰岛素？请告知</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="y3">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>有药物 / 食物过敏史</strong>
+        <span>例如青霉素、碘、花生、海鲜等</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="y4">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>曾有麻醉不良反应 / 困难气道</strong>
+        <span>上次手术插管困难、恶心呕吐严重等</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="y5">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>正在服用抗凝药 / 阿司匹林</strong>
+        <span>华法林、波立维、阿司匹林均需告知</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="y6">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>女性：可能怀孕或哺乳期</strong>
+        <span>麻醉药物可能影响胎儿 / 乳汁</span>
+      </div>
+    </label>
+
+  </div>
+</div>
+
+<!-- 加分区 -->
+<div class="section green">
+  <div class="section-header">
+    <span class="icon">🟢</span>
+    <div>
+      <div>加分区 — 做了更安全</div>
+      <div class="subtitle">提升手术安全系数的好习惯</div>
+    </div>
+  </div>
+  <div class="section-body" id="green-body">
+
+    <label class="item" data-id="g1">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>已安排家属全程陪同</strong>
+        <span>术后24小时内不可独自驾车或独居</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="g2">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>术前一晚睡眠充足（≥ 6 小时）</strong>
+        <span>良好睡眠有助于麻醉恢复</span>
+      </div>
+    </label>
+
+    <label class="item" data-id="g3">
+      <input type="checkbox" />
+      <div class="custom-check">
+        <svg viewBox="0 0 12 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1,5 4.5,8.5 11,1"/>
+        </svg>
+      </div>
+      <div class="item-text">
+        <strong>已阅读并理解术前宣教资料</strong>
+        <span>有疑问请在入室前向麻醉医生提问</span>
+      </div>
+    </label>
+
+  </div>
+</div>
+
+<!-- 完成横幅 -->
+<div class="done-banner" id="doneBanner">
+  <div class="big">🎉</div>
+  <h2>准备完毕！安心进手术室</h2>
+  <p>所有项目已确认，祝手术顺利、早日康复！</p>
+</div>
+
+<button class="reset-btn" onclick="resetAll()">重置清单（重新开始）</button>
+
+<footer>
+  <p>本清单仅供参考，具体医嘱以主治医生指导为准</p>
+  <p style="margin-top:4px;">© 麻醉科患者教育项目</p>
+</footer>
+
+<script>
+  const TOTAL = 14;
+
+  function getChecked() {
+    return document.querySelectorAll('.item.checked').length;
+  }
+
+  function updateProgress() {
+    const n = getChecked();
+    const pct = Math.round((n / TOTAL) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `已完成 ${n} / ${TOTAL} 项`;
+
+    const banner = document.getElementById('doneBanner');
+    if (n === TOTAL) {
+      banner.classList.add('show');
+      banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+      banner.classList.remove('show');
+    }
+  }
+
+  document.querySelectorAll('.item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      const cb = item.querySelector('input[type="checkbox"]');
+      cb.checked = !cb.checked;
+      item.classList.toggle('checked', cb.checked);
+      updateProgress();
+    });
+  });
+
+  function resetAll() {
+    document.querySelectorAll('.item').forEach(function(item) {
+      item.classList.remove('checked');
+      item.querySelector('input[type="checkbox"]').checked = false;
+    });
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
