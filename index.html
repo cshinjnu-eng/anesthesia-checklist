@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>麻醉术前自查清单</title>
+  <title>麻醉术前 · 患者教育</title>
   <style>
     :root {
       --red: #e53e3e;
@@ -234,9 +234,310 @@
       font-size: 12px;
       color: #a0aec0;
     }
+
+    /* ── Tab nav ── */
+    .tab-nav {
+      display: flex;
+      max-width: 560px;
+      margin: 0 auto 28px;
+      background: #e2e8f0;
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 8px;
+      border: none;
+      border-radius: 9px;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 600;
+      color: #718096;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: #fff;
+      color: #2d3748;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* ── Form page ── */
+    #page-form { display: none; }
+    #page-checklist { display: block; }
+
+    .form-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 14px;
+      color: #2d3748;
+    }
+
+    .form-title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #2d3748;
+    }
+
+    .form-patient {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 8px 16px;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+    .form-patient .fi { display: flex; flex-direction: column; }
+    .form-patient .fi label { font-size: 11px; color: #718096; margin-bottom: 2px; }
+    .form-patient .fi span { font-weight: 600; font-size: 14px; color: #1a202c; }
+
+    .form-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .form-card-header {
+      background: #2d3748;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 8px 14px;
+    }
+    .form-card-body {
+      padding: 12px 14px;
+    }
+
+    .form-row {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+      padding: 7px 0;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+    .form-row:last-child { border-bottom: none; }
+
+    .form-row .fl {
+      font-size: 13px;
+      color: #4a5568;
+      min-width: 120px;
+      flex-shrink: 0;
+    }
+    .form-row .fv {
+      font-size: 13px;
+      color: #1a202c;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .form-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 8px 0;
+    }
+    .chip {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1.5px solid #cbd5e0;
+      color: #4a5568;
+      background: #f7fafc;
+    }
+    .chip.active {
+      border-color: #3182ce;
+      background: #ebf8ff;
+      color: #2b6cb0;
+    }
+    .chip.danger {
+      border-color: #e53e3e;
+      background: #fff5f5;
+      color: #c53030;
+    }
+
+    /* System history grid */
+    .sys-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 480px) { .sys-grid { grid-template-columns: 1fr; } }
+
+    .sys-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+    .sys-item .sys-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #718096;
+      margin-bottom: 4px;
+    }
+    .sys-item .sys-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a202c;
+    }
+    .sys-item.has-issue { border-color: #fc8181; background: #fff5f5; }
+    .sys-item.has-issue .sys-val { color: #c53030; }
+
+    /* Lab table */
+    .lab-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .lab-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: #718096;
+      letter-spacing: 0.5px;
+      padding: 6px 8px;
+      background: #f7fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .lab-table td {
+      padding: 7px 8px;
+      border-bottom: 1px dashed #e2e8f0;
+      vertical-align: middle;
+    }
+    .lab-table tr:last-child td { border-bottom: none; }
+    .lab-table .val { font-weight: 700; color: #1a202c; }
+    .lab-table .unit { color: #a0aec0; font-size: 11px; }
+    .lab-table .normal { color: #38a169; font-size: 11px; font-weight: 600; }
+    .lab-table .abnormal { color: #e53e3e; font-size: 11px; font-weight: 600; }
+
+    .orders-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .orders-list li {
+      display: flex;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px dashed #e2e8f0;
+      font-size: 13px;
+      color: #2d3748;
+    }
+    .orders-list li:last-child { border-bottom: none; }
+    .orders-list .num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #2d3748;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Tooltip term ── */
+    .term {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      color: #3182ce;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 1.5px dashed #90cdf4;
+      padding-bottom: 1px;
+      transition: color 0.15s;
+    }
+    .term:hover { color: #2b6cb0; }
+    .term-icon { font-size: 11px; opacity: 0.7; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      transform: scale(0.92);
+      transition: transform 0.2s;
+    }
+    .modal-overlay.open .modal-box { transform: scale(1); }
+    .modal-box h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1a202c;
+      margin-bottom: 10px;
+    }
+    .modal-box p {
+      font-size: 14px;
+      color: #4a5568;
+      line-height: 1.7;
+    }
+    .modal-box .modal-tag {
+      display: inline-block;
+      background: #ebf8ff;
+      color: #2b6cb0;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .modal-close {
+      display: block;
+      margin-top: 16px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #edf2f7;
+      font-size: 14px;
+      font-weight: 600;
+      color: #4a5568;
+      cursor: pointer;
+    }
+    .modal-close:hover { background: #e2e8f0; }
   </style>
 </head>
 <body>
+
+<!-- Tab Nav -->
+<nav style="padding: 20px 16px 0; max-width: 720px; margin: 0 auto 0;">
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('checklist', this)">✅ 术前自查清单</button>
+    <button class="tab-btn" onclick="switchTab('form', this)">📋 麻醉术前访视单</button>
+  </div>
+</nav>
+
+<!-- Page: Checklist -->
+<div id="page-checklist">
 
 <header>
   <div class="badge">麻醉科 · 患者教育</div>
@@ -487,6 +788,300 @@
   <p style="margin-top:4px;">© 麻醉科患者教育项目</p>
 </footer>
 
+</div><!-- end #page-checklist -->
+
+<!-- Page: Form -->
+<div id="page-form">
+<div class="form-wrap" style="padding: 0 16px 40px;">
+
+  <div class="form-title">麻醉术前访视单</div>
+
+  <!-- 患者信息 -->
+  <div class="form-patient">
+    <div class="fi"><label>姓名</label><span>——</span></div>
+    <div class="fi"><label>性别</label><span>女</span></div>
+    <div class="fi"><label>年龄</label><span>42 岁</span></div>
+    <div class="fi"><label>住院号</label><span>0000341936</span></div>
+    <div class="fi"><label>科室</label><span>骨3科（手足外科）病房</span></div>
+    <div class="fi" style="grid-column: 1/-1;">
+      <label>术前诊断</label>
+      <span>①右小腿撕脱伤 &nbsp;②头部损伤 &nbsp;③多处损伤 &nbsp;④高血压 &nbsp;⑤2型糖尿病</span>
+    </div>
+    <div class="fi" style="grid-column: 1/-1;">
+      <label>拟行手术</label>
+      <span>右小腿外伤 <span class="term" data-key="pifan">皮瓣清创术<span class="term-icon">?</span></span> + 血管神经肌腱探查吻合术 + 皮瓣转移术</span>
+    </div>
+    <div class="fi" style="grid-column: 1/-1;">
+      <label>拟行麻醉方式</label>
+      <span>
+        <span class="term" data-key="zjgnmz">椎管内麻醉<span class="term-icon">?</span></span>
+        &nbsp;/&nbsp;
+        <span class="term" data-key="qsmz">全身麻醉（非插管）<span class="term-icon">?</span></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- 一般情况 -->
+  <div class="form-card">
+    <div class="form-card-header">一般情况</div>
+    <div class="form-card-body">
+
+      <div class="form-row">
+        <span class="fl"><span class="term" data-key="xingongneng">心功能分级<span class="term-icon">?</span></span></span>
+        <div class="fv form-chips">
+          <span class="chip active">III 级</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="fl"><span class="term" data-key="asa">ASA 分级<span class="term-icon">?</span></span></span>
+        <div class="fv form-chips">
+          <span class="chip active">I 级</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="fl">松动牙齿 / 假牙</span>
+        <div class="fv form-chips">
+          <span class="chip active">无</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="fl">过敏史</span>
+        <div class="fv form-chips">
+          <span class="chip active">无</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="fl"><span class="term" data-key="knrj">困难插管分级<span class="term-icon">?</span></span></span>
+        <div class="fv form-chips">
+          <span class="chip active">I 级</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="fl">青光眼</span>
+        <div class="fv form-chips">
+          <span class="chip active">无</span>
+          <span style="font-size:12px;color:#a0aec0;align-self:center;">（<span class="term" data-key="qgy">为何关注？<span class="term-icon">?</span></span>）</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="fl">烟酒 / 药物滥用史</span>
+        <div class="fv form-chips">
+          <span class="chip active">无</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="fl">手术麻醉史</span>
+        <div class="fv form-chips">
+          <span class="chip active">腰麻</span>
+          <span style="font-size:12px;color:#a0aec0;align-self:center;">（<span class="term" data-key="yaoma">腰麻是什么？<span class="term-icon">?</span></span>）</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="fl">目前用药</span>
+        <div class="fv form-chips">
+          <span class="chip danger">降压药</span>
+          <span class="chip danger">降糖药</span>
+          <span style="font-size:12px;color:#a0aec0;align-self:center;">（<span class="term" data-key="jiangyadrug">术前用药说明<span class="term-icon">?</span></span>）</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 既往病史 -->
+  <div class="form-card">
+    <div class="form-card-header">既往病史（按系统）</div>
+    <div class="form-card-body">
+      <div class="sys-grid">
+        <div class="sys-item has-issue">
+          <div class="sys-name">心血管系统</div>
+          <div class="sys-val">高血压</div>
+        </div>
+        <div class="sys-item">
+          <div class="sys-name">呼吸系统</div>
+          <div class="sys-val">无慢性疾病</div>
+        </div>
+        <div class="sys-item has-issue">
+          <div class="sys-name">内分泌系统</div>
+          <div class="sys-val">2型糖尿病（注射胰岛素）</div>
+        </div>
+        <div class="sys-item">
+          <div class="sys-name">消化系统</div>
+          <div class="sys-val">无慢性疾病</div>
+        </div>
+        <div class="sys-item">
+          <div class="sys-name">泌尿系统</div>
+          <div class="sys-val">无慢性疾病</div>
+        </div>
+        <div class="sys-item">
+          <div class="sys-name">神经系统</div>
+          <div class="sys-val">无慢性疾病</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:#718096;line-height:1.6;">
+        <strong>补充：</strong>高血压、糖尿病史多年，自服药物及注射胰岛素（具体剂量不详）；传染病史无；已婚。
+      </div>
+    </div>
+  </div>
+
+  <!-- 主要检查 -->
+  <div class="form-card">
+    <div class="form-card-header">主要检查结果</div>
+    <div class="form-card-body">
+
+      <!-- 血常规 -->
+      <div style="font-size:12px;font-weight:700;color:#718096;margin-bottom:6px;letter-spacing:0.5px;">血常规</div>
+      <table class="lab-table" style="margin-bottom:14px;">
+        <tr>
+          <th>项目</th><th>结果</th><th>单位</th><th>状态</th>
+        </tr>
+        <tr>
+          <td><span class="term" data-key="wbc">WBC<span class="term-icon">?</span></span></td>
+          <td class="val">9.44</td>
+          <td class="unit">×10⁹/L</td>
+          <td class="normal">正常</td>
+        </tr>
+        <tr>
+          <td><span class="term" data-key="plt">PLT<span class="term-icon">?</span></span></td>
+          <td class="val">217</td>
+          <td class="unit">×10⁹/L</td>
+          <td class="normal">正常</td>
+        </tr>
+        <tr>
+          <td><span class="term" data-key="rbc">RBC<span class="term-icon">?</span></span></td>
+          <td class="val">5.02</td>
+          <td class="unit">×10¹²/L</td>
+          <td class="normal">正常</td>
+        </tr>
+        <tr>
+          <td><span class="term" data-key="hb">HB（血红蛋白）<span class="term-icon">?</span></span></td>
+          <td class="val">141</td>
+          <td class="unit">g/L</td>
+          <td class="normal">正常</td>
+        </tr>
+      </table>
+
+      <!-- 血生化 -->
+      <div style="font-size:12px;font-weight:700;color:#718096;margin-bottom:6px;letter-spacing:0.5px;">血生化</div>
+      <table class="lab-table" style="margin-bottom:14px;">
+        <tr>
+          <th>项目</th><th>结果</th><th>单位</th><th>状态</th>
+        </tr>
+        <tr>
+          <td><span class="term" data-key="bun">BUN（尿素氮）<span class="term-icon">?</span></span></td>
+          <td class="val">6.43</td>
+          <td class="unit">mmol/L</td>
+          <td class="normal">正常</td>
+        </tr>
+        <tr>
+          <td><span class="term" data-key="hba1c">HbA1c（糖化血红蛋白）<span class="term-icon">?</span></span></td>
+          <td class="val">19.6</td>
+          <td class="unit">µmol/L<br><span style="font-size:10px;color:#e53e3e;">⚠ 请结合原始报告核实单位</span></td>
+          <td class="abnormal">待核</td>
+        </tr>
+        <tr>
+          <td><span class="term" data-key="ast">AST<span class="term-icon">?</span></span></td>
+          <td class="val">36</td>
+          <td class="unit">U/L</td>
+          <td class="normal">正常</td>
+        </tr>
+        <tr>
+          <td><span class="term" data-key="alt">ALT<span class="term-icon">?</span></span></td>
+          <td class="val">38</td>
+          <td class="unit">U/L</td>
+          <td class="normal">正常</td>
+        </tr>
+        <tr>
+          <td>K⁺</td>
+          <td class="val">4.31</td>
+          <td class="unit">mmol/L</td>
+          <td class="normal">正常</td>
+        </tr>
+        <tr>
+          <td>Na⁺</td>
+          <td class="val">140.9</td>
+          <td class="unit">mmol/L</td>
+          <td class="normal">正常</td>
+        </tr>
+      </table>
+
+      <!-- 凝血 -->
+      <div style="font-size:12px;font-weight:700;color:#718096;margin-bottom:6px;letter-spacing:0.5px;">凝血功能</div>
+      <table class="lab-table" style="margin-bottom:14px;">
+        <tr>
+          <th>项目</th><th>结果</th><th>单位</th><th>状态</th>
+        </tr>
+        <tr>
+          <td><span class="term" data-key="pt">PT（凝血酶原时间）<span class="term-icon">?</span></span></td>
+          <td class="val">8.7</td>
+          <td class="unit">s</td>
+          <td class="normal">正常</td>
+        </tr>
+        <tr>
+          <td><span class="term" data-key="aptt">APTT<span class="term-icon">?</span></span></td>
+          <td class="val">23.4</td>
+          <td class="unit">s</td>
+          <td class="normal">正常</td>
+        </tr>
+      </table>
+
+      <!-- ECG/UCG -->
+      <div style="font-size:12px;font-weight:700;color:#718096;margin-bottom:6px;letter-spacing:0.5px;">影像与功能检查</div>
+      <div class="form-chips">
+        <span class="chip active">
+          <span class="term" data-key="ecg">ECG（心电图）<span class="term-icon">?</span></span>：正常
+        </span>
+        <span class="chip active">
+          <span class="term" data-key="ucg">UCG（超声心动图）<span class="term-icon">?</span></span>：正常
+        </span>
+        <span class="chip">胸片 / 血气：正常</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 术前麻醉医嘱 -->
+  <div class="form-card">
+    <div class="form-card-header">术前麻醉医嘱</div>
+    <div class="form-card-body">
+      <ul class="orders-list">
+        <li>
+          <span class="num">1</span>
+          <span>术前 <strong>8 小时</strong>禁食水</span>
+        </li>
+        <li>
+          <span class="num">2</span>
+          <span>
+            术晨用一小口水（约 5 ml）服用
+            <span class="term" data-key="kangya">抗高血压药物<span class="term-icon">?</span></span>
+            <br><span style="font-size:12px;color:#718096;">注意：其他口服药如降糖药，请遵医嘱，通常术晨暂停</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</div><!-- end #page-form -->
+
+<!-- Modal overlay -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-tag" id="modalTag">麻醉科注解</div>
+    <h3 id="modalTitle"></h3>
+    <p id="modalBody"></p>
+    <button class="modal-close" onclick="closeModal()">知道了</button>
+  </div>
+</div>
+
 <script>
   const TOTAL = 14;
 
@@ -528,6 +1123,155 @@
   }
 
   updateProgress();
+
+  // ── Tab switching ──
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('page-checklist').style.display = tab === 'checklist' ? 'block' : 'none';
+    document.getElementById('page-form').style.display = tab === 'form' ? 'block' : 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Modal definitions ──
+  var TERMS = {
+    zjgnmz: {
+      tag: '麻醉方式',
+      title: '椎管内麻醉',
+      body: '将麻醉药物注入脊柱管腔内，使下半身产生感觉和运动阻滞，患者保持清醒或轻度镇静。包括两种：①腰麻（蛛网膜下腔麻醉）——起效快，效果确切；②硬膜外麻醉——可持续给药，适合较长手术。适用于下腹部、盆腔、下肢手术。'
+    },
+    qsmz: {
+      tag: '麻醉方式',
+      title: '全身麻醉（非插管）',
+      body: '使用喉罩（LMA）而非气管导管维持气道的全麻方式。患者完全无意识，但气道管理侵入性较低，适合操作时间较短、无困难气道的手术。与插管全麻相比，对咽喉刺激小、苏醒后不适感较少。'
+    },
+    pifan: {
+      tag: '手术方式',
+      title: '皮瓣清创术与皮瓣转移术',
+      body: '皮瓣是含有血管供血的皮肤+皮下组织块。清创术是清除伤口坏死组织；皮瓣转移术则是将身体其他部位有良好血供的皮肤移植到缺损处，修复无法直接缝合的伤口，常用于外伤后皮肤缺损的重建。'
+    },
+    xingongneng: {
+      tag: '评估指标',
+      title: 'NYHA 心功能分级',
+      body: '纽约心脏协会（NYHA）分级评估心脏功能：\nⅠ级——无症状，日常活动不受限；\nⅡ级——轻度受限，日常活动即感不适；\nⅢ级——明显受限，轻微活动即感心悸/气促；\nⅣ级——静息时也有症状，不能进行任何活动。\n麻醉风险随分级升高而增加。'
+    },
+    asa: {
+      tag: '麻醉风险评估',
+      title: 'ASA 体格状况分级',
+      body: '美国麻醉医师协会（ASA）对患者全身健康状态的评分：\nⅠ级——正常健康人；\nⅡ级——轻度系统疾病（如控制良好的高血压）；\nⅢ级——重度系统疾病，有功能限制；\nⅣ级——危及生命的系统疾病；\nⅤ级——濒死患者。\n该患者评为Ⅰ级，说明基础状态尚可，手术耐受性较好。'
+    },
+    knrj: {
+      tag: '气道评估',
+      title: '困难插管分级（Mallampati 分级）',
+      body: '张口时观察咽部结构来预测气管插管难度：\nⅠ级——可见悬雍垂、扁桃体柱、软腭（最容易）；\nⅡ级——可见悬雍垂、软腭；\nⅢ级——仅见软腭；\nⅣ级——仅见硬腭（最困难）。\n分级越高，麻醉医师需准备的困难气道设备越多。'
+    },
+    qgy: {
+      tag: '麻醉相关风险',
+      title: '青光眼与麻醉的关系',
+      body: '部分麻醉药和操作可影响眼内压（IOP）。气管插管、咳嗽、呕吐均可短暂升高眼内压，对青光眼患者可能有害。椎管内麻醉通常对眼压影响较小。若患者患有青光眼，麻醉医师需相应调整药物选择和管理策略。'
+    },
+    yaoma: {
+      tag: '麻醉方式',
+      title: '腰麻（蛛网膜下腔麻醉）',
+      body: '在腰椎2-3或3-4椎间隙穿刺，将局麻药注入蛛网膜下腔（脑脊液中）。特点：起效快（5-10分钟）、效果确切、用药量少，适合下肢、会阴、下腹部手术。缺点是持续时间固定，术后可能有头痛（体位性头痛）。'
+    },
+    jiangyadrug: {
+      tag: '术前用药',
+      title: '术前降压药与降糖药的处理原则',
+      body: '降压药（如ARB、ACEI、β受体阻滞剂）：通常在术晨继续服用（一小口水送服），以维持围术期血压稳定，突然停用可能引起血压反跳。\n\n降糖药：口服降糖药一般在手术当日暂停（尤其是二甲双胍，以防乳酸酸中毒）；胰岛素通常减量使用，以防止禁食导致低血糖。具体方案由麻醉医师和内分泌科共同决定。'
+    },
+    wbc: {
+      tag: '血常规',
+      title: 'WBC — 白细胞计数',
+      body: '白细胞是机体免疫防御的核心细胞。正常范围约 4–10 ×10⁹/L。升高提示感染或炎症反应；降低见于骨髓抑制或病毒感染。该患者 9.44，在创伤背景下属正常偏高，提示应激反应，需结合临床判断。'
+    },
+    plt: {
+      tag: '血常规',
+      title: 'PLT — 血小板计数',
+      body: '血小板负责止血和凝血。正常范围约 100–300 ×10⁹/L。椎管内麻醉（腰麻/硬膜外）一般要求 PLT > 80 ×10⁹/L，理想值 >100。该患者 217，凝血风险低，适合行椎管内麻醉。'
+    },
+    rbc: {
+      tag: '血常规',
+      title: 'RBC — 红细胞计数',
+      body: '红细胞负责携氧。女性正常范围约 3.5–5.0 ×10¹²/L。该患者 5.02，处于正常高值，提示血液携氧能力良好，对手术中可能的失血有一定储备。'
+    },
+    hb: {
+      tag: '血常规',
+      title: 'HB — 血红蛋白',
+      body: '血红蛋白是评估贫血的核心指标，直接反映血液携氧量。女性正常范围约 120–160 g/L。该患者 141 g/L，正常，不存在术前贫血，无需输血准备。麻醉科一般要求术前 HB > 80 g/L 方可行择期手术。'
+    },
+    bun: {
+      tag: '肾功能',
+      title: 'BUN — 血尿素氮',
+      body: '尿素氮是蛋白质代谢产物，经肾脏排泄，是评估肾功能的指标之一。正常范围约 2.5–7.1 mmol/L。该患者 6.43，正常。肾功能异常会影响多种麻醉药的代谢和排泄，需要调整剂量。'
+    },
+    hba1c: {
+      tag: '内分泌',
+      title: 'HbA1c — 糖化血红蛋白',
+      body: '反映过去 2-3 个月的平均血糖水平，是评估糖尿病控制情况的金标准。正常 <5.7%，糖尿病控制目标通常 <7%。注：OCR 原文数值单位显示为 µmol/L，与临床常见的 % 或 mmol/mol 不符，建议核对原始报告。血糖控制越差，围术期感染、伤口愈合不良和心血管并发症风险越高。'
+    },
+    ast: {
+      tag: '肝功能',
+      title: 'AST — 天冬氨酸转氨酶',
+      body: '肝细胞损伤时释放入血，是肝功能的常用指标。正常范围约 10–40 U/L。该患者 36，正常。肝功能正常对麻醉药物（大多经肝脏代谢）的代谢和清除至关重要。'
+    },
+    alt: {
+      tag: '肝功能',
+      title: 'ALT — 丙氨酸转氨酶',
+      body: '肝脏特异性更强的损伤指标，正常范围约 7–40 U/L。该患者 38，接近正常上限。ALT 与 AST 合称"转氨酶"，联合升高提示肝细胞损伤，需要麻醉医师关注药物剂量调整。'
+    },
+    pt: {
+      tag: '凝血功能',
+      title: 'PT — 凝血酶原时间',
+      body: '评估外源性凝血途径（因子Ⅶ、Ⅹ、Ⅴ、凝血酶原、纤维蛋白原）的功能，正常值约 10–14 秒。该患者 8.7 s，偏短（提示凝血偏活跃），但临床意义需结合其他指标。PT 延长见于肝病、维生素K缺乏、口服华法林等情况。椎管内麻醉前必须确认凝血功能正常。'
+    },
+    aptt: {
+      tag: '凝血功能',
+      title: 'APTT — 活化部分凝血活酶时间',
+      body: '评估内源性凝血途径（因子Ⅷ、Ⅸ、Ⅺ、Ⅻ）的功能，正常值约 25–37 秒。该患者 23.4 s，正常低值，凝血功能完好。APTT 延长见于血友病或使用肝素抗凝的患者，是椎管内麻醉的相对禁忌。'
+    },
+    ecg: {
+      tag: '心脏检查',
+      title: 'ECG — 心电图',
+      body: '通过记录心脏电活动评估心律和心肌状况。麻醉科关注：心律失常（房颤、室性早搏）、心肌缺血（ST 段变化）、传导阻滞（QRS 增宽）、QT 间期（影响某些麻醉药的选择）。正常 ECG 提示心脏电传导无明显异常。'
+    },
+    ucg: {
+      tag: '心脏检查',
+      title: 'UCG — 超声心动图',
+      body: '用超声波观察心脏结构和功能，是评估心脏储备能力最直观的方式。麻醉科关注：射血分数（EF，正常 >55%）、瓣膜狭窄/反流、心包积液、室壁运动异常等。UCG 正常提示心脏结构和收缩功能良好，对手术耐受性有利。'
+    },
+    kangya: {
+      tag: '术前医嘱',
+      title: '为什么术晨仍需服用降压药？',
+      body: '高血压患者术晨停用降压药可能导致血压反跳性升高，增加术中高血压危象、心肌缺血和脑血管意外的风险。因此麻醉指南建议：大多数降压药（特别是β受体阻滞剂和钙通道拮抗剂）应在术晨继续服用，仅需一小口水（约5 ml）送服，不影响禁食要求。注意：ACEI/ARB类药物是否停用需由麻醉医师个体化决定。'
+    }
+  };
+
+  function openModal(key) {
+    var d = TERMS[key];
+    if (!d) return;
+    document.getElementById('modalTag').textContent = d.tag;
+    document.getElementById('modalTitle').textContent = d.title;
+    document.getElementById('modalBody').textContent = d.body;
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.term').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.stopPropagation();
+      openModal(el.dataset.key);
+    });
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
 </script>
 </body>
 </html>
